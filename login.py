@@ -4,13 +4,17 @@
 import settings
 import gui
 import requests
+import pickle
+import saver
 
 
 class WPLogin():
     def __init__(self):
         self.user_name = settings.user_name
         self.user_password = settings.user_password
-        self.session = requests.Session()
+        self.session = saver.Saver().get_session()
+        if self.session is None:
+            self.session = requests.Session()
 
     def check_login(self):
         # good {"query":{"userinfo":{"id":1151236,"name":"Sebiumeker","editcount":115}}}

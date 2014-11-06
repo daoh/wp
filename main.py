@@ -2,11 +2,9 @@
 # main
 ##
 import login
+import saver
 import gui
 
-print("run")
+print("starting...")
 l = login.WPLogin()
 l.login()
-
-g = gui.Gui()
-print("password = "+g.get_string())
