@@ -12,11 +12,16 @@ class WPLogin():
     def __init__(self):
         self.user_name = settings.user_name
         self.user_password = settings.user_password
-        self.session = saver.Saver().get_session()
+        self.saver = saver.Saver()
+        self.session = self.saver.get_session()
         if self.session is None:
             self.session = requests.Session()
 
     def check_login(self):
+        ##
+        # Проверка авторизации.
+        # Запрашивается страница с информацией об участнике.
+        ##
         # good {"query":{"userinfo":{"id":1151236,"name":"Sebiumeker","editcount":115}}}
         # bad {"query":{"userinfo":{"id":0,"name":"93.175.12.119","anon":"","editcount":0}}}
         req_url = "https://ru.wikipedia.org/w/api.php?action=query&meta=userinfo&format=json"
@@ -31,6 +36,11 @@ class WPLogin():
         return True
 
     def login_try(self):
+        ##
+        # Авторизация происходит в 2 этапа.
+        # 1) имя и пароль посылаются пост-запросом, возвращается токен
+        # 2) токен отсылается обратно для проверки
+        ##
         # correct first: {"login":{"result":"NeedToken","token":"xxx","cookieprefix":"ruwiki","sessionid":"xxx"}}
         # correct 2nd: {"login":{"result":"Success","lguserid":1151236,"lgusername":"xxx","lgtoken":"xxx","cookieprefix":"ruwiki","sessionid":"xxx"}}
         # bad 2nd: {"login":{"result":"WrongPass"}}
@@ -79,10 +89,15 @@ class WPLogin():
         return True
 
     def login(self):
+        ##
+        # Вход в Википедию с проверкой.
+        # Если уже вошел - используются текущие данные.
+        # Если нет - имя берется из настроек, а пароль оттуда же, либо вводится.
+        ##
         print("Hello "+self.user_name)
         if self.check_login():
-            print(self.user_name + ", you are logged!")
-            return self.session
+            print(self.user_name + " already logged in!")
+            return
         if self.user_password != "":
             print("it's not safe to keep password in file")
         else:
@@ -90,6 +105,4 @@ class WPLogin():
             self.user_password = g.get_string()
             print("Thank you!")
         if self.login_try():
-            return self.session
-        else:
-            return None
+            self.saver.set_session(self.session)
