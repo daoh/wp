@@ -4,8 +4,8 @@
 import settings
 import gui
 import requests
-import pickle
 import saver
+import tools
 
 
 class WPLogin():
@@ -20,10 +20,14 @@ class WPLogin():
     def check_login(self):
         ##
         # Проверка авторизации.
+        # Если логинились сегодня, то наверно все в порядке.
         # Запрашивается страница с информацией об участнике.
         ##
         # good {"query":{"userinfo":{"id":1151236,"name":"Sebiumeker","editcount":115}}}
         # bad {"query":{"userinfo":{"id":0,"name":"93.175.12.119","anon":"","editcount":0}}}
+        if self.saver.get_param_date("session") is not None:
+            if self.saver.get_param_date("session") == tools.get_date():
+                return True
         req_url = "https://ru.wikipedia.org/w/api.php?action=query&meta=userinfo&format=json"
         try:
             res = self.session.get(req_url)
