@@ -6,15 +6,16 @@ import myriad
 import convertor
 import category
 
-x = category.Category("Категория:Коммуны Сардинии")
-print(x.get_cat_articles_list())
-print(x.get_cat_subcategorys_list())
 
-'''
 print("starting...")
 l = login.WPLogin()
 l.login()
 
+
+x = category.Category(category="Категория:Статьи проекта Галерея славы русскоязычных жителей Земли по участникам")
+
+
+'''
 m = myriad.Myriad()
 m.check_parts()
 m.parts_parser()
