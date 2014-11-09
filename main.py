@@ -4,9 +4,11 @@
 import login
 import myriad
 import convertor
+import category
 
-c = convertor.Convertor()
-c.convert()
+x = category.Category("Категория:Коммуны Сардинии")
+print(x.get_cat_articles_list())
+print(x.get_cat_subcategorys_list())
 
 '''
 print("starting...")
