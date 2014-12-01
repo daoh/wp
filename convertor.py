@@ -71,15 +71,15 @@ class Convertor():
         data_list = data.split("*")[1:]
         for unit in data_list:
             unit = unit.strip()
-            pattern = re.compile("\{\{[\s]*cite[\s]*book[\s]*\|")
+            pattern = re.compile("\{\{[\s]*[Cc]ite[\s]*book[\s]*\|")
             if pattern.search(unit) is not None:
                 res = self.cite_book_to_book(unit)
                 print(res)
-            pattern = re.compile("\{\{[\s]*cite[\s]*journal[\s]*\|")
+            pattern = re.compile("\{\{[\s]*[Cc]ite[\s]*journal[\s]*\|")
             if pattern.search(unit) is not None:
                 res = self.cite_journal_to_article(unit)
                 print(res)
-            pattern = re.compile("\{\{[\s]*cite[\s]*encyclopedia[\s]*\|")
+            pattern = re.compile("\{\{[\s]*,[Cc]ite[\s]*encyclopedia[\s]*\|")
             if pattern.search(unit) is not None:
                 res = self.cite_book_to_book(unit)
                 print(res)

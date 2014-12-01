@@ -12,7 +12,8 @@ l = login.WPLogin()
 l.login()
 
 
-x = category.Category(category="Категория:Статьи проекта Галерея славы русскоязычных жителей Земли по участникам")
+x = convertor.Convertor()
+x.convert()
 
 
 '''
